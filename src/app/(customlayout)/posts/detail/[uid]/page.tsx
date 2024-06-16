@@ -1,5 +1,5 @@
 import { Oxanium } from 'next/font/google'
-import Logo from '../../../../../public/wallpaperflare.com_wallpaper.jpg'
+import Logo from '../../../../../../public/wallpaperflare.com_wallpaper.jpg'
 import { Blogpost } from '../../../../ui/imagemodify/Blogpost'
 import Image from 'next/image'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/16/solid'
