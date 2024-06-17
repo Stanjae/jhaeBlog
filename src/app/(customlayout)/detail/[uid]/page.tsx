@@ -1,10 +1,10 @@
 import { Oxanium } from 'next/font/google'
 import Logo from '../../../../../public/wallpaperflare.com_wallpaper.jpg'
-import { Blogpost } from '../../../../ui/imagemodify/Blogpost'
+import { Blogpost } from '../../../ui/imagemodify/Blogpost'
 import Image from 'next/image'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/16/solid'
-import MailingListForm from '../../../../ui/forms/MailingListForm'
-import SeeMoreCard from '../../../../ui/cards/SeeMoreCard'
+import MailingListForm from '../../../ui/forms/MailingListForm'
+import SeeMoreCard from '../../../ui/cards/SeeMoreCard'
 
 
 const oxanium = Oxanium({
@@ -16,7 +16,7 @@ const oxanium = Oxanium({
 const Posts = () => {
   return (
     <main className=" mx-auto h-screen">
-        <section className=' border-b border-b-bgdark pt-8 blog-post'>
+        <section className=' mt-[91px] border-b border-b-bgdark pt-8 blog-post'>
             <div className=' space-y-5 mx-auto max-w-screen-lg '>
                 <button className=' inline-flex item-center font-bold text-lg pr-6 py-2'> 
                     <ChevronLeftIcon className=' h-5 w-5'/>
