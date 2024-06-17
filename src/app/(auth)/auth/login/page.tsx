@@ -2,11 +2,9 @@
 import LoginForm from '@/app/ui/auth/Login'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react';
 import Logo from '../../../../../public/siteLogo.png'
 
 const Page = () => {
-    const[authStatus, setAuthStatus] = useState(false)
   return (
     <main className="w-full h-screen flex flex-col items-center justify-center bg-gray-50 sm:px-4">
         <div className="w-full space-y-6 text-gray-600 sm:max-w-md">
