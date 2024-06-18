@@ -23,7 +23,7 @@ const NavBar = () => {
             ))}
             </nav>
             <div className=' flex items-center space-x-3 '>
-                <Link href='/login'>Login</Link>
+                <Link href='/auth/login'>Login</Link>
                 <button className='border border-bgdark py-2 px-6 rounded-md transition-colors duration-500 hover:bg-bgdark hover:text-white '>Book a Call</button>
             </div>
         </div>
