@@ -1,9 +1,0 @@
-{
-  "/_not-found/page": "app/_not-found/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/(auth)/auth/dashboard/posts/page": "app/(auth)/auth/dashboard/posts/page.js",
-  "/(auth)/auth/dashboard/create-post/page": "app/(auth)/auth/dashboard/create-post/page.js",
-  "/(auth)/auth/dashboard/page": "app/(auth)/auth/dashboard/page.js",
-  "/(customlayout)/detail/[uid]/page": "app/(customlayout)/detail/[uid]/page.js",
-  "/(auth)/auth/dashboard/edit/[slug]/page": "app/(auth)/auth/dashboard/edit/[slug]/page.js"
-}
