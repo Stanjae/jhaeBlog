@@ -2,7 +2,7 @@
 
 
 export const ROOT = '/auth/login';
-export const PUBLIC_ROUTES =(id:string) =>{
+export const PUBLIC_ROUTES =(id:string | any) =>{  
     let pami;
     if (id.startsWith('/detail')){
         pami = id.split('/')[2];
