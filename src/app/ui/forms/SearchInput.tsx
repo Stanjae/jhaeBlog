@@ -49,7 +49,7 @@ const SearchInput = () => {
               onChange={(e) => {
                 handleType(e.target.value);
               }}
-              placeholder="Read aloud"
+              placeholder="search.."
               defaultValue={searchParams.get('query')?.toString()}
               className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-3xl outline-none bg-gray-50 focus:bg-white focus:border-bg-primary"
           />
