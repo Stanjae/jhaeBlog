@@ -1,6 +1,7 @@
 import React from 'react'
 
-const Page = async() => {
+const Author = async({ params : {uid}}:{ params: { uid: string } }) => {
+    console.log(uid)
   return (
     <div>
       <h2>Author Page</h2>
@@ -8,4 +9,4 @@ const Page = async() => {
   )
 }
 
-export default Page
+export default Author
