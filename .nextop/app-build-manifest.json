@@ -1,0 +1,54 @@
+{
+  "pages": {
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+    ],
+    "/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/loading.js"
+    ],
+    "/(auth)/auth/dashboard/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(auth)/auth/dashboard/layout.css",
+      "static/chunks/app/(auth)/auth/dashboard/layout.js"
+    ],
+    "/(auth)/auth/dashboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(auth)/auth/dashboard/page.js"
+    ],
+    "/(auth)/auth/dashboard/posts/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(auth)/auth/dashboard/posts/page.js"
+    ],
+    "/(auth)/auth/dashboard/create-post/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(auth)/auth/dashboard/create-post/page.css",
+      "static/chunks/app/(auth)/auth/dashboard/create-post/page.js"
+    ],
+    "/(customlayout)/detail/[uid]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(customlayout)/detail/[uid]/page.css",
+      "static/chunks/app/(customlayout)/detail/[uid]/page.js"
+    ],
+    "/(customlayout)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(customlayout)/layout.css",
+      "static/chunks/app/(customlayout)/layout.js"
+    ],
+    "/(auth)/auth/dashboard/edit/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(auth)/auth/dashboard/edit/[slug]/page.js"
+    ]
+  }
+}

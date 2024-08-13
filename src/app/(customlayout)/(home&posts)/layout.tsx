@@ -1,10 +1,9 @@
-'use client'
-import SearchInput from '@/app/ui/forms/SearchInput';
-import CategoryList from '@/app/ui/sidebars/CategoryList';
-import FeaturedList from '@/app/ui/sidebars/FeaturedList';
 import { Oxanium } from 'next/font/google';
-import { usePathname } from 'next/navigation';
-import React from 'react'
+import CCategoryFeaturedHeader from '@/app/ui/conditionalrenders/CCategoryFeaturedHeader';
+import CCategoryFeaturedlist from '@/app/ui/conditionalrenders/CCategoryFeaturedlist';
+import CSearchInput from '@/app/ui/conditionalrenders/CSearchInput';
+import SearchInput from '@/app/ui/forms/SearchInput';
+
 
 const oxanium = Oxanium({
     weight: ["400", "700"],
@@ -13,12 +12,11 @@ const oxanium = Oxanium({
   })
 
 const Secondlayout = ({
-    children, 
+    children,
   }: Readonly<{
-    children: React.ReactNode;
+    children: React.ReactNode,
   }>) => {
-    const pathname = usePathname()
-    console.log(pathname)
+
   return (
     <div className="grid grid-cols-12">
     {/* first column */}
@@ -28,12 +26,11 @@ const Secondlayout = ({
     </div>
     {/* second column */}
     <div className=" fixed left-[68.5%] z-40 bg-white/75 h-screen px-5 col-span-1 hidden md:block md:col-span-3 border-l border-bgdark">
-      {pathname === '/posts' && <SearchInput/>}
+      <CSearchInput/>
       <div className=" pt-8 pb-4 px-2 border-bgdark">
-        <h1 className={`${oxanium.className} text-wrap md:text-3xl font-bold`}>
-          {pathname === '/posts' ? 'Categories' : 'Featured Posts'}</h1>
+        <CCategoryFeaturedHeader/>
       </div>
-      {pathname === '/posts' ? <CategoryList/> : <FeaturedList/>}
+        <CCategoryFeaturedlist/>
       <div className=" px-2 space-y-3 py-7 my-3">
         <h1 className={`${oxanium.className} text-wrap md:text-3xl font-bold`}>
         Follow us</h1>

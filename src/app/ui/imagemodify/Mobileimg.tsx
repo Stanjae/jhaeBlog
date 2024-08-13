@@ -11,7 +11,7 @@ export const TrapeziumImageMobile = ({ src, alt, width, height }:
             </mask>
           </defs>
         </svg>
-        <Image className='rounded-md' src={src} alt={alt}
+        <Image width={200} height={200} className='rounded-md' src={src} alt={alt}
           style={{
             width: '100%',
             height: '100%',

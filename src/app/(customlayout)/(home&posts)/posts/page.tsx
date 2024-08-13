@@ -1,11 +1,6 @@
 import { Oxanium } from 'next/font/google'
-import Logo from '../../../../public/wallpaperflare.com_wallpaper.jpg'
-import { Blogpost } from '../../../ui/imagemodify/Blogpost'
-import Image from 'next/image'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/16/solid'
-import MailingListForm from '../../../ui/forms/MailingListForm'
-import SeeMoreCard from '../../../ui/cards/SeeMoreCard'
 import AllPostCard from '@/app/ui/cards/AllPostCard'
+import { getAllPosts } from '@/app/lib/data'
 
 
 const oxanium = Oxanium({
@@ -14,7 +9,10 @@ const oxanium = Oxanium({
     variable: "--font-oxanium",
 })
 
-const Posts = () => {
+const Posts = async({searchParams}:any) => {
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
+  const posts = await getAllPosts(query, currentPage)
   return (
     <div>
       <div className=" py-[38px] pr-20 border-b border-bgdark">
@@ -23,12 +21,13 @@ const Posts = () => {
         </h1>
       </div>
       <div className=" py-10 pr-10 grid gap-10 grid-cols-6">
-        <div className=' col-span-6 sm:col-span-3'>
-            <AllPostCard/>
-        </div>
-        <div className=' col-span-6 sm:col-span-3'>
-            <AllPostCard/>
-        </div>
+        {posts?.map((post:any, index:number)=>(
+            <div key={index} className=' col-span-6 sm:col-span-3'>
+                        <AllPostCard post={post}/>
+            </div>
+        ))}
+        
+
       </div>
     </div>
       )

@@ -1,10 +1,19 @@
 import { Oxanium } from 'next/font/google'
-import Logo from '../../../../../public/wallpaperflare.com_wallpaper.jpg'
-import { Blogpost } from '../../../ui/imagemodify/Blogpost'
 import Image from 'next/image'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/16/solid'
 import MailingListForm from '../../../ui/forms/MailingListForm'
 import SeeMoreCard from '../../../ui/cards/SeeMoreCard'
+import { getAllLikesByPostId, getDetailedPostBySlug, getLikePostByPostId } from '@/app/lib/data'
+import DOMPurify from 'isomorphic-dompurify';
+import BackButton from '@/app/ui/CustomButton/BackButton'
+import DetailPagePreNextSection from '@/app/ui/customComponents/DetailPagePreNextSection'
+import { Suspense } from 'react'
+import DetailPrevNextSection from '@/app/ui/cskeletons/DetailPrevNextSection'
+import { Chip, Tooltip } from '@/app/ui/customComponents/CustomComponents'
+import { StarIcon } from '@heroicons/react/24/solid'
+import YouMayAlsoLike from '@/app/ui/customComponents/YouMayAlsoLike'
+import { YouMayAlsoLikeSkeleton } from '@/app/ui/cskeletons/YoutMayAlsoLikeSkeleton'
+import PostLike from '@/app/ui/likes/PostLike'
+import { auth } from '@/auth'
 
 
 const oxanium = Oxanium({
@@ -13,32 +22,56 @@ const oxanium = Oxanium({
     variable: "--font-oxanium",
 })
 
-const Posts = () => {
+const Posts = async({ params : {uid}}:{ params: { uid: string } }) => {
+    const post = await getDetailedPostBySlug(uid)
+    const session = await auth()
+    
+    //console.log('the current post',post)
+    const clean = DOMPurify.sanitize(post?.content.trim());
+    const newDate = new Date(post?.created_at).toDateString()
+    const initialLiked = await getLikePostByPostId(post?.postid, session?.user.userid)
+
+    const noOfLikes = await getAllLikesByPostId(post?.postid)
+    console.log('the number of likes',noOfLikes)
+
+    
   return (
     <main className=" mx-auto h-screen">
         <section className=' mt-[91px] border-b border-b-bgdark pt-8 blog-post'>
             <div className=' space-y-5 mx-auto max-w-screen-lg '>
-                <button className=' inline-flex item-center font-bold text-lg pr-6 py-2'> 
-                    <ChevronLeftIcon className=' h-5 w-5'/>
-                    Go Back</button>
+                <BackButton/>
                 <h1 className={`${oxanium.className} text-[42px] leading-10 md:leading-none text-wrap md:text-6xl font-bold`}>
-                    A Lannister always pays his debts</h1>
+                    {post?.title}
+                </h1>
                 <div className=' text-sm sm:text-base relative flex items-center'>
-                    <Image className=' h-7 w-7 sm:h-10 sm:w-10 rounded-full object-cover' src={Logo} alt='author'/>
-                    <h5 className=' font-normal border-r border-r-bgdark px-3'>Ryan Mohses</h5>
-                    <h5 className=' font-normal px-3'>29th Nov 2019</h5>
+                    <Image width={28} height={28} className=' h-7 w-7 sm:h-10 sm:w-10 rounded-full object-cover' src={post?.image_url} alt='author'/>
+                    <h5 className=' font-semibold border-r border-r-bgdark px-3'>{post?.author}</h5>
+                    <h5 className=' font-normal px-3 border-r border-r-bgdark'>{newDate}</h5>
+                    <Chip className='ml-3' size="sm" value={post?.category} />
+                    {post?.type == "featured post" && <Tooltip content={post?.type}>
+                        <StarIcon className=' h-5 w-5 sm:h-7 sm:w-7 ml-3 text-yellow-700' />
+                    </Tooltip>}
+                    <PostLike countLikes={noOfLikes} slug={uid} userId={session?.user.userid} initialLiked={initialLiked} postId={post?.postid}/>
                 </div>
-                <Image style={{clipPath: 'polygon(0% 0%, 90% 12.5%, 100% 100%, 0% 100%)'}}  
-                className=' blogstyle w-full h-[300px] rounded-md object-cover mx-auto block' src={Logo} alt='opera'/>
+                <Image quality={100} blurDataURL={post?.image_url} placeholder="blur" priority={true} width={1280} height={1280}  sizes="(min-width: 808px) 50vw, 100vw" style={{clipPath: 'polygon(0% 0%, 90% 12.5%, 100% 100%, 0% 100%)'}}  
+                className=' blogstyle w-full h-[300px] rounded-md object-cover mx-auto block' src={post?.image_url } alt={post?.slug}/>
             </div>
             
         </section>
         <section className=' pb-10'>
-            <div className=' space-y-2 py-4 mx-auto max-w-screen-md '>
-                <p className=' font-medium'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio quae illum natus magnam corrupti dignissimos, saepe sequi obcaecati voluptatem omnis 
-                                quasi quas maiores dolorum in perspiciatis ipsum dolores. Magni, praesentium.</p>
-                <p className=' font-medium'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio quae illum natus magnam corrupti dignissimos, saepe sequi obcaecati voluptatem omnis 
-                quasi quas maiores dolorum in perspiciatis ipsum dolores. Magni, praesentium.</p>
+            <div className=' space-y-2 font-medium py-4 mx-auto max-w-screen-md '>
+                <div dangerouslySetInnerHTML={{__html: clean.slice(1, clean.length -1)}}/>
+            </div>
+
+            <div className=' space-y-2 font-medium py-4 mx-auto max-w-screen-md '>
+                <h6 className={`${oxanium.className} font-bold text-xl`}>Tags</h6>
+                <Suspense fallback={'...loading'}>
+                    <div className='flex gap-2 flex-wrap'>
+                        {JSON.parse(post?.tags || '[]').map((tag: string) => (<Chip key={tag} 
+                                            className="bg-primary text-white" size="md" value={tag}/>))}
+                    </div>
+                    
+                </Suspense>
             </div>
             <div className=' border-y border-y-bgdark flex justify-between items-center space-y-2 py-4 mx-auto max-w-screen-md '>
                <h2 className={`${oxanium.className} font-bold text-3xl`}>Share this Post</h2>
@@ -62,46 +95,17 @@ const Posts = () => {
             </div>
         </section>
         {/* previous next section */}
-        <section className=' py-12 bg-primary/10'>
-            <div className=' gap-x-40 flex justify-between max-w-screen-lg mx-auto'>
-                <div className=' pb-0.5 border-b border-b-bgdark space-y-5'>
-                    <div className=' gap-x-2 items-center flex'>
-                        <button className=' p-2 rounded-full border border-bgdark'>
-                            <ChevronLeftIcon className=' h-3'/>
-                        </button>
-                        <h4 className={`${oxanium.className} font-bold text-2xl`}>Previous Post</h4>
-                    </div>
-                    <div className=' border-l-4 border-l-bgdark'>
-                        <p className=' text-wrap font-semibold px-2 text-lg'>
-                            Ser Barristan Selmy the commander of the Kings Guard at the Sept of Baelor
-                        </p>
-                    </div>
-                </div>
-
-                <div className=' border-b pb-0.5 border-b-bgdark space-y-5'>
-                    <div className=' gap-x-2 items-center justify-end flex'>
-                        <h4 className={`${oxanium.className} font-bold text-2xl`}>Next Post</h4>
-                        <button className=' p-2 rounded-full border border-bgdark'>
-                            <ChevronRightIcon className=' h-3'/>
-                        </button>
-                    </div>
-                    <div className=' border-r-4 border-r-bgdark'>
-                        <p className=' text-end text-wrap font-semibold px-2 text-lg'>
-                            Ser Barristan Selmy the commander of the Kings Guard at the Sept of Baelor
-                        </p>
-                    </div>
-                </div>
-                
-
-            </div>
-        </section>
+        <Suspense  fallback={<DetailPrevNextSection/>}>
+            <DetailPagePreNextSection postSlug={uid}/>
+        </Suspense>
+        
         {/* you may also like section */}
         <section className=' py-12 bg-primary/30'>
             <div className='max-w-screen-lg mx-auto'>
                 <h2 className={`${oxanium.className} my-5 border-b-2 border-b-bgdark pb-5 font-bold text-3xl`}>You may also like</h2>
-                <div className=' py-5'>
-                    <SeeMoreCard alt='see more' width='150px' height='150px' />
-                </div>
+                <Suspense fallback={<YouMayAlsoLikeSkeleton/>}>
+                    <YouMayAlsoLike postTags={post?.tags} postSlug={uid}/>
+                </Suspense>
             </div>
             
         </section>

@@ -1,7 +1,43 @@
-
-import React from 'react'
+'use client'
+import { useDebounce } from '@/app/hooks/useDebounce';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
 
 const SearchInput = () => {
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const debouncedValue = useDebounce(searchQuery, 500);
+
+  const handleSearch =(q:any)=>{
+    const params = new URLSearchParams(searchParams);
+    params.set('page', '1'); // Reset page to 1 when search query changes
+    if (q != '') {
+      params.set('query', q);
+    } else {
+      params.delete('query');
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }
+
+  const handleType =(q:any)=>{
+    setSearchQuery(q)
+    const params = new URLSearchParams(searchParams); 
+    if(q.length === 0){
+      params.delete('query');
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }
+
+  useEffect(() => {
+    if(debouncedValue){
+      handleSearch(debouncedValue)
+      //console.log(debouncedValue)
+    }
+  }, [debouncedValue])
+
   return (
     <form action={''} className="max-w-md mx-auto mt-12">
       <div className="relative">
@@ -10,7 +46,11 @@ const SearchInput = () => {
           </svg>
           <input
               type="search"
+              onChange={(e) => {
+                handleType(e.target.value);
+              }}
               placeholder="Read aloud"
+              defaultValue={searchParams.get('query')?.toString()}
               className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-3xl outline-none bg-gray-50 focus:bg-white focus:border-bg-primary"
           />
       </div>
