@@ -336,7 +336,7 @@ const ProfileSettingsForm = ({session, profile}:any) => {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        {profile?.id && <Link href={`/author/${session.userid}`} className="text-sm font-semibold leading-6 text-primary">
+        {profile?.id && <Link href={``} className="text-sm font-semibold leading-6 text-primary">
           View Profile
         </Link>}
         <SubmitBtn/>
