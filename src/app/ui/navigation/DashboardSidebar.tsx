@@ -7,6 +7,7 @@ import { ArrowLeftEndOnRectangleIcon} from '@heroicons/react/24/solid'
 import { auth } from '@/auth'
 import { signOut } from "@/auth"
 import DashboardSidePiece from './DashboardSidePiece'
+import CustomAvatar from '../customComponents/CustomAvatar'
 
 
 
@@ -69,7 +70,12 @@ const DashboardSidebar = async() => {
                         </ul>
                         <div className="py-4 px-4 border-t">
                             <div className="flex items-center relative gap-x-4">
-                                <Image height={100} alt={session?.user.name || ''} width={100} src={session?.user.image || ''} className="w-11 h-11 rounded-full" />
+                                {session?.user.image ?
+                                <Image height={100} alt={session?.user.name || ''} width={100} src={session?.user.image || ''} 
+                                className="w-11 h-11 rounded-full" />
+                                :
+                                <CustomAvatar name={session?.user.name?.toUpperCase().slice(0,2) || ''}/>
+                                }
                                 <div>
                                     <span className="block text-gray-700 text-sm font-semibold">{session?.user?.name}</span>
                                     <Link

@@ -17,9 +17,10 @@ export function DeleteModal({newParams, deleteFunction}:{newParams:string, delet
   const params = new URLSearchParams(searchParams.toString()).get(newParams)
   const splitArr = params?.split('@');
 
-  const id = splitArr?.at(1);
+  const id = splitArr?.at(0);
 
   const deleteInvoiceWithId = async()=>{
+    //console.log('delete stuff: ',id, params, splitArr)
     await deleteFunction(id);
   }
 
@@ -40,7 +41,7 @@ export function DeleteModal({newParams, deleteFunction}:{newParams:string, delet
         <div><TrashIcon className=" h-12 w-12 text-red-700 mx-auto"/></div>
         <DialogHeader className=' justify-center mx-auto '>Are you sure you want to delete this Item?</DialogHeader>
         <DialogBody className="justify-center text-center">
-          {splitArr?.at(0)}
+          {splitArr?.at(1)}
         </DialogBody>
         <DialogFooter className=" justify-center">
           <Button

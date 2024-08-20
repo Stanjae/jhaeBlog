@@ -1,6 +1,16 @@
 'use client'
 
-export const sluggifyText = (text: string | null) => text?.toLowerCase().replace(/ /g, '-');
+/* export const sluggifyText = (text: string | null) => {
+  let finger = text?.toLowerCase().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '')
+  let june = finger?.trim();
+  return june
+}; */
+
+export const sluggifyText = (text: string | null) => {
+  const tell = text?.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
+  return tell;
+}
+
 
 
 

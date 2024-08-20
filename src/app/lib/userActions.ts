@@ -112,17 +112,18 @@ export const signInWithThirdParties = async (newAuth: string) => {
 //profiles
 
 export const createProfile = async (prevState:SignUpFormState, formData:any) => {
-  const {userid, firstname, lastname, country, author, cover, zipcode, city, address, bio, gender, dob} = formData
+  const newData = Object.fromEntries(formData.entries())
+  const {userid, firstname, lastname, country, author, cover, zipcode, city, address, bio, gender, date_of_birth} = newData
   const singleProfile = await getProfileById(userid);
 
-  console.log('opps: ', formData)
+  console.log('opps: ', newData)
 
   if(singleProfile){
     try{
        await client.sql`
     UPDATE profiles SET
     first_name = ${firstname}, last_name = ${lastname}, country = ${country}, city = ${city}, bio = ${bio},
-    date_of_birth = ${dob}, gender = ${gender}, profile_image_url = ${author}, cover_image_url = ${cover},
+    date_of_birth = ${date_of_birth}, gender = ${gender}, profile_image_url = ${author}, cover_image_url = ${cover},
     address = ${address}, zip_code = ${zipcode}
     WHERE user_id = ${userid}
     `
@@ -136,7 +137,7 @@ export const createProfile = async (prevState:SignUpFormState, formData:any) => 
     await client.sql`
     INSERT INTO profiles (user_id, first_name, last_name, country, city, bio, date_of_birth, gender,
     profile_image_url, cover_image_url, address, zip_code)
-    VALUES (${userid}, ${firstname}, ${lastname}, ${country}, ${city}, ${bio}, ${dob}, ${gender}, ${author}, ${cover}, ${address}, ${zipcode})
+    VALUES (${userid}, ${firstname}, ${lastname}, ${country}, ${city}, ${bio}, ${date_of_birth}, ${gender}, ${author}, ${cover}, ${address}, ${zipcode})
     `
     return {message: 'Profile Created Sucessfully.', status:'success', isTrue:true};
   }

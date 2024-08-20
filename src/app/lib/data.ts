@@ -54,7 +54,7 @@ export const getAllPosts =async(query: string, currentPage: number)=>{
 // for details page WHERE posts.slug=${slug}
 export const detailedPageRecentPost = async(slug:any)=>{
     const posts = await sql`SELECT * FROM posts
-    WHERE NOT slug=${slug}
+    WHERE NOT slug = ${slug}
     ORDER BY created_at DESC
     `;
     if(!posts) return null 
@@ -70,7 +70,7 @@ export const getYouMayAlsoLike =async( postSlug:string | null)=>{
     FROM posts 
     JOIN category ON category.id = posts.category_id
     JOIN users ON users.userId = posts.user_id
-    WHERE NOT posts.slug=${postSlug}`;
+    WHERE NOT posts.slug = ${postSlug}`;
 
       if(!post) return null 
       return post.rows;
@@ -79,13 +79,14 @@ export const getYouMayAlsoLike =async( postSlug:string | null)=>{
 
 export const getDetailedPostBySlug =async(slug:string)=>{
     const post = await sql`SELECT posts.id as postId, posts.title, posts.slug, posts.content, posts.image_url,
-    posts.created_at, posts.updated_at, posts.user_id, users.name as author, category.title as category, 
-    category.id as category_id, posts.tags, posts.type
+    posts.created_at, posts.updated_at, posts.user_id as authorid, users.name as author, category.title as category, 
+    category.id as category_id, posts.tags, posts.type, profiles.profile_image_url
     FROM posts 
     JOIN category ON category.id = posts.category_id
     JOIN users ON users.userId = posts.user_id
-    WHERE posts.slug=${slug}`;
-
+    JOIN profiles ON profiles.user_id = posts.user_id
+    WHERE posts.slug = ${slug}`;
+    console.log('post: ',post)
       if(!post) return null 
       return post.rows[0];
   

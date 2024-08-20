@@ -20,7 +20,7 @@ export default async function Home() {
       </div>
       <div className=" py-7 space-y-7 border-b border-bgdark">
         {data.map((post: any) => (
-          <PostCard alt={post?.slug} key={post.id} data={post} width={"250px"} height="250px" />
+          <PostCard alt={post?.slug} key={post?.slug} data={post} width={"250px"} height="250px" />
         ))}
       </div>
     </div>

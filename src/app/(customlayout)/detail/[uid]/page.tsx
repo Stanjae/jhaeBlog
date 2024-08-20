@@ -1,7 +1,6 @@
 import { Oxanium } from 'next/font/google'
 import Image from 'next/image'
 import MailingListForm from '../../../ui/forms/MailingListForm'
-import SeeMoreCard from '../../../ui/cards/SeeMoreCard'
 import { getAllLikesByPostId, getDetailedPostBySlug, getLikePostByPostId } from '@/app/lib/data'
 import DOMPurify from 'isomorphic-dompurify';
 import BackButton from '@/app/ui/CustomButton/BackButton'
@@ -14,6 +13,7 @@ import YouMayAlsoLike from '@/app/ui/customComponents/YouMayAlsoLike'
 import { YouMayAlsoLikeSkeleton } from '@/app/ui/cskeletons/YoutMayAlsoLikeSkeleton'
 import PostLike from '@/app/ui/likes/PostLike'
 import { auth } from '@/auth'
+import CustomAvatar from '@/app/ui/customComponents/CustomAvatar'
 
 
 const oxanium = Oxanium({
@@ -32,7 +32,9 @@ const Posts = async({ params : {uid}}:{ params: { uid: string } }) => {
     const initialLiked = await getLikePostByPostId(post?.postid, session?.user.userid)
 
     const noOfLikes = await getAllLikesByPostId(post?.postid)
-    console.log('the number of likes',noOfLikes)
+    console.log('the number of likes', post, uid)
+
+    
 
     
   return (
@@ -44,16 +46,23 @@ const Posts = async({ params : {uid}}:{ params: { uid: string } }) => {
                     {post?.title}
                 </h1>
                 <div className=' text-sm sm:text-base relative flex items-center'>
-                    <Image width={28} height={28} className=' h-7 w-7 sm:h-10 sm:w-10 rounded-full object-cover' src={post?.image_url} alt='author'/>
+                    {post?.profile_image_url ? 
+                    <Image width={28} height={28} className=' h-7 w-7 sm:h-10 sm:w-10 rounded-full object-cover' 
+                    src={post?.profile_image_url} alt='author'/>
+                    :
+                    <CustomAvatar name={post?.author.toUpperCase().slice(0,2)}/>
+                    }
+                    
+                    
                     <h5 className=' font-semibold border-r border-r-bgdark px-3'>{post?.author}</h5>
                     <h5 className=' font-normal px-3 border-r border-r-bgdark'>{newDate}</h5>
                     <Chip className='ml-3' size="sm" value={post?.category} />
                     {post?.type == "featured post" && <Tooltip content={post?.type}>
                         <StarIcon className=' h-5 w-5 sm:h-7 sm:w-7 ml-3 text-yellow-700' />
                     </Tooltip>}
-                    <PostLike countLikes={noOfLikes} slug={uid} userId={session?.user.userid} initialLiked={initialLiked} postId={post?.postid}/>
+                    <PostLike authorid={post?.authorid} countLikes={noOfLikes} slug={uid} userId={session?.user.userid} initialLiked={initialLiked} postId={post?.postid}/>
                 </div>
-                <Image quality={100} blurDataURL={post?.image_url} placeholder="blur" priority={true} width={1280} height={1280}  sizes="(min-width: 808px) 50vw, 100vw" style={{clipPath: 'polygon(0% 0%, 90% 12.5%, 100% 100%, 0% 100%)'}}  
+                <Image  quality={100} priority={true} width={1280} height={1280}  sizes="(min-width: 808px) 50vw, 100vw" style={{clipPath: 'polygon(0% 0%, 90% 12.5%, 100% 100%, 0% 100%)'}}  
                 className=' blogstyle w-full h-[300px] rounded-md object-cover mx-auto block' src={post?.image_url } alt={post?.slug}/>
             </div>
             

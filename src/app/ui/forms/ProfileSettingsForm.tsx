@@ -25,7 +25,9 @@ const ProfileSettingsForm = ({session, profile}:any) => {
 
   const [state, action] = useFormState(createProfile, {message:'', status:'', isTrue:false})
  
-  const newDate = new Date(profile?.date_of_birth).toISOString().split('T')[0]; //format date to yyyy-mm-dd
+  const newDate = new Date(profile?.date_of_birth)?.toISOString()?.split('T')[0]; //format date to yyyy-mm-dd
+
+  const defaultDate = new Date().toISOString().split('T')[0]; //format date to yyyy-mm-dd
 
   const [country, setCountry] = useState<string>('')
   const [authorFile, setAuthorFile] = useState<string>('')
@@ -35,7 +37,6 @@ const ProfileSettingsForm = ({session, profile}:any) => {
     setCountry(profile.country)
     setAuthorFile(profile.profile_image_url)
     setCoverPics(profile.cover_image_url)
-    console.log()
   }, [])
 
     const handleSubmit = (e:any) => {
@@ -48,7 +49,7 @@ const ProfileSettingsForm = ({session, profile}:any) => {
     }
   return (
     <div>
-      <form action={handleSubmit} method="POST">
+      <form action={action} method="POST">
       <div className="space-y-12">
        {state?.isTrue && <FixedAlert status={state}/>}
         <div className="border-b border-gray-900/10 pb-12">
@@ -56,6 +57,12 @@ const ProfileSettingsForm = ({session, profile}:any) => {
           <p className="mt-1 text-sm leading-6 text-gray-600">
             This information will be displayed publicly so be careful what you share.
           </p>
+          <div>
+            <input type='text' name='userid' defaultValue={session?.userid || ''} hidden/>
+            <input type='text' name='author' value={authorFile || ''} hidden/>
+            <input type='text' name='cover' value={coverPics  || ''} hidden/>
+            <input type='text' name='country' value={country || ''} hidden/>
+          </div>
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4">

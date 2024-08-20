@@ -3,7 +3,7 @@ import SeeMoreCard from "../cards/SeeMoreCard"
 
 
 const YouMayAlsoLike = async({postSlug, postTags}:{postSlug:string | null, postTags:string})=>{
-    const realTags = JSON.parse(postTags)
+    const realTags = JSON.parse(postTags || '[]') ;
     const posts = await getYouMayAlsoLike(postSlug)
     const filteredPosts = posts?.filter(item => 
         realTags.every((tag:any) => JSON.parse(item.tags).includes(tag))

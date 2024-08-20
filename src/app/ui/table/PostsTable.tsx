@@ -103,7 +103,7 @@ export async function PostsTable({searchParams}:{searchParams:any}) {
                         </Typography>
                       </Tooltip>
                     <Link className=" font-medium transition-all duration-500 text-sm hover:text-primary" 
-                    target="_blank" href={`/detail/${slug}`}>View</Link>
+                    target="_blank" href={`/detail/${postid}`}>View</Link>
                     </td>
                     <td className={classes}>
                       <Typography
@@ -157,7 +157,7 @@ export async function PostsTable({searchParams}:{searchParams:any}) {
                         </Link>
                       </Tooltip>
                       <Tooltip content="Delete">
-                        <Link className="" href={`?delete_confirmation=${title + "@" + postid}`}>
+                        <Link className="" href={`?delete_confirmation=${postid + "@" + slug}`}>
                           <IconButton className=" z-50" variant="text">
                             <TrashIcon className="h-4 w-4 text-red-500" />
                           </IconButton>

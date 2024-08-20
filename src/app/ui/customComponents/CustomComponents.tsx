@@ -2,7 +2,8 @@
  
 import { ThemeProvider, Button, Input,  Select, Option,  Checkbox, Alert, Avatar,
     Card, List, ListItem, ListItemPrefix, Typography, CardHeader, CardBody, Chip, 
-    CardFooter,IconButton, Tooltip, Dialog, DialogHeader, DialogBody,DialogFooter,
+    CardFooter,IconButton, Tooltip, Dialog, DialogHeader, DialogBody,DialogFooter, Popover,
+    PopoverHandler,PopoverContent,
     } from "@material-tailwind/react";
 
 
@@ -132,5 +133,7 @@ const CustomFileUpload =()=>{
 
 export { ThemeProvider, Button, Input, CustomFileUpload , Alert,  Select, Option, Typography, Avatar,
   CardHeader, CardBody, Chip, CardFooter, IconButton,Tooltip, Card, Dialog,
-  DialogHeader,DialogBody,DialogFooter,
+  DialogHeader,DialogBody,DialogFooter, Popover,
+  PopoverHandler,
+  PopoverContent
 }

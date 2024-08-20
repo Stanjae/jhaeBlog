@@ -78,12 +78,14 @@ const CreateForm = ({data}:any) => {
     setLoading(true)
 
     const newSlug = sluggifyText(data.slug)
+    console.log("house tarly: ", newSlug);
     const smartFile = files + '-/quality/best/-/format/webp/'
 
-    const validatedData = {...data, slug:newSlug, content: contento, category: category, metaData: metaData,
+   const validatedData = {...data, slug:newSlug, content: contento, category: category, metaData: metaData,
       postType: postType, featuredImageUrl:smartFile, tags:tags.length === 0 ? JSON.stringify(["uncategorized"]) : JSON.stringify(tags)}
 
-     const dataResponse = await createPost(validatedData);
+      console.log("validated data: ", validatedData);
+    const dataResponse = await createPost(validatedData);
       setPostResponse(dataResponse)
       setLoading(false)
       if(dataResponse?.status === 'success'){

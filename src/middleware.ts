@@ -36,7 +36,9 @@ if(isAuthroutes){
    }else{
     console.log('petyr baelish')
     return 
-   } */
+   } 
+    //AUTH_URL=https://jhae-blog.vercel.app/
+   */
 
 });
 

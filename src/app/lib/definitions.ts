@@ -75,6 +75,7 @@ export type FormData = {
     postId: string | undefined;
     userId: string | undefined;
     slug:string | undefined;
-    countLikes: any
+    countLikes: any;
+    authorid:string | undefined;
     initialLiked: boolean;
 }
