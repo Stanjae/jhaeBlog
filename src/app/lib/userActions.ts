@@ -7,6 +7,7 @@ import { db } from '@vercel/postgres';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 import { DEFAULT_REDIRECT } from './route';
+import { revalidatePath } from 'next/cache';
 
 
 const client = await db.connect();
@@ -37,6 +38,12 @@ export const getProfileById = async (id: string | undefined) => {
 
 export const getUserById = async (id: string) => {
   const user = await sql`SELECT * FROM users WHERE id=${id}`;
+  if(!user) return null
+  return user.rows[0];
+}
+
+export const getUserByUserId = async (id: string) => {
+  const user = await sql`SELECT * FROM users WHERE userid=${id}`;
   if(!user) return null
   return user.rows[0];
 }
@@ -116,8 +123,6 @@ export const createProfile = async (prevState:SignUpFormState, formData:any) => 
   const {userid, firstname, lastname, country, author, cover, zipcode, city, address, bio, gender, date_of_birth} = newData
   const singleProfile = await getProfileById(userid);
 
-  console.log('opps: ', newData)
-
   if(singleProfile){
     try{
        await client.sql`
@@ -127,8 +132,10 @@ export const createProfile = async (prevState:SignUpFormState, formData:any) => 
     address = ${address}, zip_code = ${zipcode}
     WHERE user_id = ${userid}
     `
+    revalidatePath('/auth/dashboard/settings')
     return {message: 'Profile Updated sucessfully.', status:'success', isTrue:true};
     }catch(error){
+      revalidatePath('/auth/dashboard/settings')
       return {message: `${error}`, status:'danger', isTrue:true};
     }
    
@@ -139,6 +146,7 @@ export const createProfile = async (prevState:SignUpFormState, formData:any) => 
     profile_image_url, cover_image_url, address, zip_code)
     VALUES (${userid}, ${firstname}, ${lastname}, ${country}, ${city}, ${bio}, ${date_of_birth}, ${gender}, ${author}, ${cover}, ${address}, ${zipcode})
     `
+    revalidatePath('/auth/dashboard/settings')
     return {message: 'Profile Created Sucessfully.', status:'success', isTrue:true};
   }
   

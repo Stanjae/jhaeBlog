@@ -11,12 +11,13 @@ export const homeRecentPosts =async()=>{
    const data =  await sql`
     SELECT posts.id as postId, posts.title, posts.slug, posts.image_url,
     posts.created_at, posts.updated_at, posts.user_id, users.name as author, category.title as category, 
-    category.id as category_id, posts.tags, posts.type, posts.metadata
+    category.id as category_id, posts.tags, posts.type, posts.metadata, profiles.profile_image_url
     FROM posts
     JOIN category ON category.id = posts.category_id
     JOIN users ON users.userId = posts.user_id
-        ORDER BY posts.created_at DESC
-        LIMIT 5`;
+    JOIN profiles ON profiles.user_id = posts.user_id
+    ORDER BY posts.created_at DESC
+    LIMIT 5`;
     revalidatePath('');
     return data.rows
 }
@@ -38,10 +39,11 @@ export const getAllPosts =async(query: string, currentPage: number)=>{
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
     const post = await sql`SELECT posts.id as postId, posts.title, posts.slug, posts.content, posts.image_url,
     posts.created_at, posts.updated_at, posts.user_id, users.name as author, category.title as category, 
-    category.id as category_id, posts.tags, posts.type, posts.metadata
+    category.id as category_id, posts.tags, posts.type, posts.metadata, profiles.profile_image_url
     FROM posts 
     JOIN category ON category.id = posts.category_id
     JOIN users ON users.userId = posts.user_id
+    JOIN profiles ON profiles.user_id = posts.user_id
     WHERE posts.title ILIKE ${`%${query}%`} OR category.title ILIKE ${`%${query}%`}
     ORDER BY posts.created_at DESC
     `;
@@ -77,7 +79,7 @@ export const getYouMayAlsoLike =async( postSlug:string | null)=>{
   
 }
 
-export const getDetailedPostBySlug =async(slug:string)=>{
+export const getDetailedPostBySlug = async(slug:string)=>{
     const post = await sql`SELECT posts.id as postId, posts.title, posts.slug, posts.content, posts.image_url,
     posts.created_at, posts.updated_at, posts.user_id as authorid, users.name as author, category.title as category, 
     category.id as category_id, posts.tags, posts.type, profiles.profile_image_url
@@ -152,4 +154,38 @@ export const getLikePostByPostId =async(postId:string | undefined, userId:string
       if(!likes) return null
       const numberOflikes = Number(likes.rows[0].count ?? '0');
       return numberOflikes;
+  }
+
+  /* for profiles */
+  /* for profile card */
+  export const getProfileCardByAuthorId = async (userId: string | undefined) => {
+    const profile = sql`SELECT profiles.first_name, profiles.last_name, profiles.bio, profiles.profile_image_url
+    FROM profiles
+    WHERE profiles.user_id = ${userId}`;
+
+    const followersCount = sql`SELECT COUNT(*) FROM followers WHERE author_id=${userId}`;
+
+    const followersArray = sql`SELECT followers.author_id, followers.follower_id, profiles.user_id, 
+    profiles.profile_image_url, users.name
+    FROM followers
+    JOIN profiles ON profiles.user_id = followers.follower_id
+    JOIN users ON users.userid = followers.follower_id
+    WHERE followers.author_id = ${userId}`;
+
+    const [singleProfile, totalFollowers, followers] = await Promise.all([profile, followersCount, followersArray]);
+
+    /* if (profile.rowCount === 0) {
+      throw new Error('User not found');
+    } */
+    return ({singleProfile, totalFollowers, followers});
+  }
+
+  export const getAllAuthorPostsById = async (authorId: string | undefined) => {
+      const posts = await sql`SELECT posts.id, posts.title, posts.metadata, posts.slug, posts.type,
+       posts.updated_at, posts.image_url, profiles.first_name, profiles.last_name, profiles.profile_image_url
+       FROM posts
+       JOIN profiles ON profiles.user_id = posts.user_id
+       WHERE posts.user_id = ${authorId}
+       `
+       return posts.rows
   }

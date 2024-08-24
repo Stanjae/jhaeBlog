@@ -16,6 +16,7 @@ const fira = Fira_Sans({subsets: ['latin'], weight: '400'});
 const PostCard = ({width, height, alt, data}:{width:any, height:string, alt:string,  data:any}) => {
   //console.log(removeHTMLTags(data?.content));
   //const clean = DOMPurify.sanitize(data?.con.trim());
+  const newDate = new Date(data?.created_at).toDateString()
   return (
     <div className=' px-4 sm:px-0 block sm:flex border-b pb-4 border-bgdark'>
       <div>
@@ -38,9 +39,9 @@ const PostCard = ({width, height, alt, data}:{width:any, height:string, alt:stri
           {data?.metadata}...
         </p>
         <div className=' md:absolute text-bgdark text-sm sm:text-base relative bottom-0 flex items-center'>
-          <Image width={100} height={100} className=' h-7 w-7 sm:h-10 sm:w-10 rounded-full object-cover' src={Logo} alt='author'/>
+          <Image width={100} height={100} className=' h-7 w-7 sm:h-9 sm:w-9 rounded-full object-cover' src={data?.profile_image_url} alt='author'/>
           <h5 className=' font-normal border-r border-r-bgdark px-3'>{data?.author}</h5>
-          <h5 className=' font-normal px-3'>29th Nov 2019</h5>
+          <h5 className=' font-normal px-3'>{newDate}</h5>
         </div>
       </div>
     </div>

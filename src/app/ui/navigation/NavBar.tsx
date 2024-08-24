@@ -7,6 +7,7 @@ import {Avatar, Typography} from '../customComponents/CustomComponents'
 import { UserSession } from '@/app/lib/definitions'
 import { auth } from '@/auth'
 import CusNavLinks from './CusNavLinks'
+import CustomAvatar from '../customComponents/CustomAvatar'
 
 
 
@@ -22,8 +23,13 @@ const NavBar = async() => {
             <div className=' flex items-center space-x-3 '>
                 {session?.user?.id ? (
                     <Link href={'/auth/dashboard'}><div className=' flex items-center space-x-3'>
-                        <Avatar size='sm' alt={session?.user?.name || ''} src={session?.user?.image || ""} variant="circular"
-                        withBorder={true} color="blue-gray" className=" p-0.5"/>
+                        {session?.user?.image ? (
+                             <Avatar size='sm' alt={session?.user?.name || ''} src={session?.user?.image || ""} variant="circular"
+                             withBorder={true} color="blue-gray" className=" p-0.5"/>
+                        ) : (
+                            <CustomAvatar name={session?.user.name?.toUpperCase().slice(0,2) || ''}/>
+                        )
+                        }       
                         <Typography variant='h6' className='font-bold' >Dashboard</Typography>
                 </div></Link>)
                 :<Link href='/auth/login'>Login</Link>

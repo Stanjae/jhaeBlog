@@ -103,7 +103,7 @@ export async function PostsTable({searchParams}:{searchParams:any}) {
                         </Typography>
                       </Tooltip>
                     <Link className=" font-medium transition-all duration-500 text-sm hover:text-primary" 
-                    target="_blank" href={`/detail/${postid}`}>View</Link>
+                    target="_blank" href={`/detail/${slug}`}>View</Link>
                     </td>
                     <td className={classes}>
                       <Typography

@@ -11,19 +11,20 @@ const AllPostCard = ({post}:any) => {
             <Image width={200} height={200} quality={100} style={{clipPath: 'polygon(12.5% 12.5%, 100% 0%, 100% 100%, 0% 100%)'}} 
             className="object-cover w-full h-full" src={post?.image_url} alt="fave"/>
         </div>
-        {/* 'polygon(0% 0%, 90% 12.5%, 100% 100%, 0% 100%)' */}
-      <div className="p-6">
+        <div className=' px-6 py-3 text-sm relative flex items-center'>
+            <Image width={50} height={50} className=' h-6 w-6 sm:h-6 sm:w-6 rounded-full object-cover' src={post.profile_image_url} alt='author'/>
+            <h5 className=' font-normal px-3'>{post?.author}</h5>
+        </div>
+      <div className="px-6 pt-1 pb-4">
         <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
           <Link className="text-inherit text-decoration-none text-primary hover:underline" href={`/detail/${post?.slug}`}>{post?.title}</Link>
         </h5>
         <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased">
-          {post?.metadata}
+          {post?.metadata?.slice(0, 100)}...
         </p>
       </div>
       <div className=' p-6 text-sm relative flex items-center'>
-            <Image className=' h-6 w-6 sm:h-6 sm:w-6 rounded-full object-cover' src={FeatImage} alt='author'/>
-            <h5 className=' font-normal border-r border-r-bgdark px-3'>{post?.author}</h5>
-            <h5 className=' font-normal text-bgdark/75 px-3'>{newDate}</h5>
+            <h5 className=' font-normal text-bgdark/75'>{newDate}</h5>
         </div>
       {/* <div className="p-6 pt-0">
         <button

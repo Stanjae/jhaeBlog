@@ -6,6 +6,7 @@ import { db } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
+import { getProfileById } from './userActions';
 
 
 
@@ -16,8 +17,6 @@ export const dummyFunction =async()=>{
 
 
 const client = await db.connect();
-
-
 
 
 export const getPostBySlug = async(slug:string)=>{
@@ -41,6 +40,11 @@ export async function deletePost(id: string | undefined) {
 
 export const createPost = async(formData:CompletePostType)=> {
   const session = await auth()
+
+  const singleProfile = await getProfileById(session?.user?.userid);
+  if(!singleProfile?.profile_image_url){
+    return {message: "Update your Profile picture before creating posts", status:'danger', isTrue:true}
+  }
   const validatedData = CompletePostSchema.safeParse(formData);
     if (!validatedData.success) {
       return {message: "Invalid Data", status:'danger', isTrue:true}
@@ -201,4 +205,36 @@ export async function likePost(userId: string | undefined, postId: string | unde
         console.error('Error liking/unliking post:', error);
     }
    
+}
+
+export const getFollowById = async (userId: string | undefined, authorId: string | undefined) => {
+  const existingFollow = await sql`
+    SELECT * FROM followers
+    WHERE follower_id = ${userId} AND author_id = ${authorId}
+  `;
+  return existingFollow.rows[0];
+}
+
+export const followUser = async (userId: string | undefined, authorId: string | undefined) => {
+  console.log('operation:', userId, authorId)
+  try{
+    const existingFollow = await getFollowById(userId, authorId);
+    console.log('dung: ', existingFollow)
+
+   if(existingFollow){
+      await sql`DELETE FROM followers WHERE author_id = ${authorId}`;
+      revalidatePath(`/profiles/${authorId}`);
+      return {status: 'unfollowed'};
+    }else{
+      await sql`
+      INSERT INTO followers (follower_id, author_id)
+      VALUES (${userId}, ${authorId})
+      `
+      revalidatePath(`/profiles/${authorId}`);
+      return {status: 'followed'};
+    }
+  }catch(error){
+    console.log(error)
+  }
+  
 }

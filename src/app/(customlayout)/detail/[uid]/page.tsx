@@ -22,8 +22,8 @@ const oxanium = Oxanium({
     variable: "--font-oxanium",
 })
 
-const Posts = async({ params : {uid}}:{ params: { uid: string } }) => {
-    const post = await getDetailedPostBySlug(uid)
+export default async function Page({ params }:{ params: { uid: string } }){
+    const post = await getDetailedPostBySlug(params.uid)
     const session = await auth()
     
     //console.log('the current post',post)
@@ -32,7 +32,7 @@ const Posts = async({ params : {uid}}:{ params: { uid: string } }) => {
     const initialLiked = await getLikePostByPostId(post?.postid, session?.user.userid)
 
     const noOfLikes = await getAllLikesByPostId(post?.postid)
-    console.log('the number of likes', post, uid)
+    //console.log('the number of likes', post, params.uid)
 
     
 
@@ -60,7 +60,7 @@ const Posts = async({ params : {uid}}:{ params: { uid: string } }) => {
                     {post?.type == "featured post" && <Tooltip content={post?.type}>
                         <StarIcon className=' h-5 w-5 sm:h-7 sm:w-7 ml-3 text-yellow-700' />
                     </Tooltip>}
-                    <PostLike authorid={post?.authorid} countLikes={noOfLikes} slug={uid} userId={session?.user.userid} initialLiked={initialLiked} postId={post?.postid}/>
+                    <PostLike authorid={post?.authorid} countLikes={noOfLikes} slug={params.uid} userId={session?.user.userid} initialLiked={initialLiked} postId={post?.postid}/>
                 </div>
                 <Image  quality={100} priority={true} width={1280} height={1280}  sizes="(min-width: 808px) 50vw, 100vw" style={{clipPath: 'polygon(0% 0%, 90% 12.5%, 100% 100%, 0% 100%)'}}  
                 className=' blogstyle w-full h-[300px] rounded-md object-cover mx-auto block' src={post?.image_url } alt={post?.slug}/>
@@ -105,7 +105,7 @@ const Posts = async({ params : {uid}}:{ params: { uid: string } }) => {
         </section>
         {/* previous next section */}
         <Suspense  fallback={<DetailPrevNextSection/>}>
-            <DetailPagePreNextSection postSlug={uid}/>
+            <DetailPagePreNextSection postSlug={params.uid}/>
         </Suspense>
         
         {/* you may also like section */}
@@ -113,7 +113,7 @@ const Posts = async({ params : {uid}}:{ params: { uid: string } }) => {
             <div className='max-w-screen-lg mx-auto'>
                 <h2 className={`${oxanium.className} my-5 border-b-2 border-b-bgdark pb-5 font-bold text-3xl`}>You may also like</h2>
                 <Suspense fallback={<YouMayAlsoLikeSkeleton/>}>
-                    <YouMayAlsoLike postTags={post?.tags} postSlug={uid}/>
+                    <YouMayAlsoLike postTags={post?.tags} postSlug={params.uid}/>
                 </Suspense>
             </div>
             
@@ -122,4 +122,3 @@ const Posts = async({ params : {uid}}:{ params: { uid: string } }) => {
   )
 }
 
-export default Posts

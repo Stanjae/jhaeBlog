@@ -25,7 +25,7 @@ const ProfileSettingsForm = ({session, profile}:any) => {
 
   const [state, action] = useFormState(createProfile, {message:'', status:'', isTrue:false})
  
-  const newDate = new Date(profile?.date_of_birth)?.toISOString()?.split('T')[0]; //format date to yyyy-mm-dd
+  const newDate = new Date(profile?.date_of_birth || 'Tue Aug 20 2024 22:20:34 GMT+0100 (West Africa Standard Time)')?.toISOString()?.split('T')[0]; //format date to yyyy-mm-dd
 
   const defaultDate = new Date().toISOString().split('T')[0]; //format date to yyyy-mm-dd
 
@@ -34,22 +34,14 @@ const ProfileSettingsForm = ({session, profile}:any) => {
   const [coverPics, setCoverPics] = useState<string>('')
 
   useEffect(()=>{
-    setCountry(profile.country)
-    setAuthorFile(profile.profile_image_url)
-    setCoverPics(profile.cover_image_url)
+    setCountry(profile?.country)
+    setAuthorFile(profile?.profile_image_url)
+    setCoverPics(profile?.cover_image_url)
   }, [])
 
-    const handleSubmit = (e:any) => {
-      const paris = Object.fromEntries(e.entries());
-      const validatedData = {firstname:paris.firstname, lastname:paris.lastname, country:country, author:authorFile,
-        cover:coverPics, zipcode:paris.zipcode, city:paris.city, address:paris.address, bio:paris.bio, gender:paris.gender,
-        userid:session.userid, dob:paris.date_of_birth}
-
-      action(validatedData)
-    }
   return (
     <div>
-      <form action={action} method="POST">
+      <form action={action}>
       <div className="space-y-12">
        {state?.isTrue && <FixedAlert status={state}/>}
         <div className="border-b border-gray-900/10 pb-12">
@@ -343,7 +335,7 @@ const ProfileSettingsForm = ({session, profile}:any) => {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        {profile?.id && <Link href={``} className="text-sm font-semibold leading-6 text-primary">
+        {profile?.id && <Link href={`/profiles/${session?.userid}`} className="text-sm font-semibold leading-6 text-primary">
           View Profile
         </Link>}
         <SubmitBtn/>

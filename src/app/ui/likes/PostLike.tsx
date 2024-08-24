@@ -15,8 +15,11 @@ const PostLike = ({userId, postId, initialLiked, slug, countLikes, authorid}:Lik
             setLikeError({message: "Cannot like your own post", status:true});
             return
         }
+        if(!userId){
+            setLikeError({message: "You must login to like post", status:true});
+            return
+        }
         startTransition(async () => {
-            setIsLiked(prev => !prev)
             const result = await likePost(userId, postId, slug);
             if (result?.status === 'liked') {
                 setIsLiked(true);
