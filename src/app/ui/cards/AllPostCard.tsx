@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import FeatImage from '../../../../public/wallpaperflare.com_wallpaper.jpg'
 import Link from "next/link";
 
 const AllPostCard = ({post}:any) => {
@@ -11,10 +10,13 @@ const AllPostCard = ({post}:any) => {
             <Image width={200} height={200} quality={100} style={{clipPath: 'polygon(12.5% 12.5%, 100% 0%, 100% 100%, 0% 100%)'}} 
             className="object-cover w-full h-full" src={post?.image_url} alt="fave"/>
         </div>
-        <div className=' px-6 py-3 text-sm relative flex items-center'>
-            <Image width={50} height={50} className=' h-6 w-6 sm:h-6 sm:w-6 rounded-full object-cover' src={post.profile_image_url} alt='author'/>
-            <h5 className=' font-normal px-3'>{post?.author}</h5>
-        </div>
+        <Link className="hover:no-underline hover:text-primary no-underline" href={`/profiles/${post?.user_id}`}>
+          <div className=' px-6 py-3 text-sm relative flex items-center'>
+              <Image width={50} height={50} className=' h-6 w-6 sm:h-6 sm:w-6 rounded-full object-cover' src={post.profile_image_url} alt='author'/>
+              <h5 className=' font-normal px-3'>{post?.author}</h5>
+          </div>
+        </Link>
+        
       <div className="px-6 pt-1 pb-4">
         <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
           <Link className="text-inherit text-decoration-none text-primary hover:underline" href={`/detail/${post?.slug}`}>{post?.title}</Link>

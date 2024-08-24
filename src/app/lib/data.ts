@@ -17,7 +17,7 @@ export const homeRecentPosts =async()=>{
     JOIN users ON users.userId = posts.user_id
     JOIN profiles ON profiles.user_id = posts.user_id
     ORDER BY posts.created_at DESC
-    LIMIT 5`;
+    LIMIT 10`;
     revalidatePath('');
     return data.rows
 }
@@ -188,4 +188,20 @@ export const getLikePostByPostId =async(postId:string | undefined, userId:string
        WHERE posts.user_id = ${authorId}
        `
        return posts.rows
+  }
+
+  export const getAllAuthorPostsCount = async (authorId: string | undefined) => {
+    const posts = await sql`SELECT COUNT(*)
+    FROM posts
+    WHERE posts.user_id = ${authorId}
+    `
+    return posts.rows[0].count
+  }
+
+  export const getAuthorTotalPostsLIkesCount = async (authorId: string | undefined) => {
+    const likes = await sql`SELECT COUNT(*)
+    FROM likes
+    WHERE author_id = ${authorId}
+    `
+    return likes.rows[0].count
   }

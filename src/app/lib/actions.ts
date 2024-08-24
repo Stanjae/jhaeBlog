@@ -182,7 +182,7 @@ export async function deleteCategory(id: string | undefined) {
 }
 // Adjust the import according to your project structure
 
-export async function likePost(userId: string | undefined, postId: string | undefined, slug:string | undefined) {
+export async function likePost(userId: string | undefined, postId: string | undefined, slug:string | undefined, authorid:string | undefined) {
     try {
         // Check if the user has already liked the post
         const existingLike = await getLikePostById(postId, userId);
@@ -195,8 +195,8 @@ export async function likePost(userId: string | undefined, postId: string | unde
         } else {
             // Otherwise, create a new like
             await client.sql`
-            INSERT INTO likes (post_id, user_id)
-            VALUES (${postId}, ${userId})
+            INSERT INTO likes (post_id, user_id, author_id)
+            VALUES (${postId}, ${userId}, ${authorid})
             `
             revalidatePath(`/detail/${slug}`);
             return { status: 'liked' };

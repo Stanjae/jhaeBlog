@@ -28,10 +28,10 @@ const FollowButton = ({newFollower, authorId}:any) => {
     }
   return (
     <div>
-      <button onClick={handleFollow}
+      {newFollower !== authorId && <button onClick={handleFollow}
       className="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out">
       {isFollowing ? 'Following' : 'Follow'}
-    </button>
+    </button>}
     </div>
   )
 }

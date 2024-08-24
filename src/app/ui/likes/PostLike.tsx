@@ -20,7 +20,7 @@ const PostLike = ({userId, postId, initialLiked, slug, countLikes, authorid}:Lik
             return
         }
         startTransition(async () => {
-            const result = await likePost(userId, postId, slug);
+            const result = await likePost(userId, postId, slug, authorid);
             if (result?.status === 'liked') {
                 setIsLiked(true);
             } else {

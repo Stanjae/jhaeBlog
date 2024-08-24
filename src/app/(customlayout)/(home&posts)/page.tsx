@@ -18,7 +18,7 @@ export default async function Home() {
         <h1 className={`${oxanium.className} text-[42px] leading-10 md:leading-none text-wrap 
         md:text-7xl font-bold`}>Discover Our Latest Posts</h1>
       </div>
-      <div className=" py-7 space-y-7 border-b border-bgdark">
+      <div className=" py-7 space-y-7">
         {data.map((post: any) => (
           <PostCard alt={post?.slug} key={post?.slug} data={post} width={"250px"} height="250px" />
         ))}

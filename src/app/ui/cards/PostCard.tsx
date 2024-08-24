@@ -35,12 +35,15 @@ const PostCard = ({width, height, alt, data}:{width:any, height:string, alt:stri
           {data?.title}
           </Link>
         </h3>
-        <p className=' font-medium text-base '>
-          {data?.metadata}...
+        <p className=' font-medium text-base text-wrap '>
+          {data?.metadata?.slice(0, 150)}...
         </p>
         <div className=' md:absolute text-bgdark text-sm sm:text-base relative bottom-0 flex items-center'>
           <Image width={100} height={100} className=' h-7 w-7 sm:h-9 sm:w-9 rounded-full object-cover' src={data?.profile_image_url} alt='author'/>
-          <h5 className=' font-normal border-r border-r-bgdark px-3'>{data?.author}</h5>
+          <h5 className=' font-normal border-r border-r-bgdark px-3'>
+            <Link className='text-inherit transition-all duration-700 hover:text-primary hover:underline' 
+            href={`/profiles/${data?.user_id}`}>{data?.author}</Link>
+          </h5>
           <h5 className=' font-normal px-3'>{newDate}</h5>
         </div>
       </div>

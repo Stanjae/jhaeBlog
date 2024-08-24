@@ -3,11 +3,13 @@ import { getProfileById, getUserByUserId } from '@/app/lib/userActions';
 import ProfileCard from '@/app/ui/cards/ProfileCard';
 import ProfileCardSkeleton from '@/app/ui/cskeletons/ProfileCardSkeleton';
 import ProfilePostsList from '@/app/ui/customComponents/ProfilePostsList';
-import { CheckBadgeIcon } from '@heroicons/react/24/solid';
+import { CheckBadgeIcon, HeartIcon } from '@heroicons/react/24/solid';
 import { Oxanium } from 'next/font/google';
 import Image from 'next/image';
 import {Spinner} from '@/app/ui/customComponents/CustomComponents'
 import { Suspense } from 'react';
+import { getAllAuthorPostsCount, getAuthorTotalPostsLIkesCount } from '@/app/lib/data';
+import millify from 'millify';
 
 const oxanium = Oxanium({
   weight: ["400", "700"],
@@ -18,6 +20,10 @@ const oxanium = Oxanium({
 export default async function Page({params}:{ params: { uid: string } }) {
 
   const newProfile = await getProfileById(params.uid) || {}
+
+  const totalPosts = await getAllAuthorPostsCount(params.uid)
+
+  const totalLikesFromPosts = await getAuthorTotalPostsLIkesCount(params.uid)
 
   const newDate = new Date(newProfile?.updated_at).toDateString()
 
@@ -37,7 +43,7 @@ export default async function Page({params}:{ params: { uid: string } }) {
             </div>
             <div>
               <h3 className={`${oxanium.className} text-white text-4xl text-wrap font-bold`}>@{user?.name.replace(' ','_' )}</h3>
-              <p className="text-gray-500 font-semibold text-base">{newDate} - <span>19 posts</span></p>
+              <p className="text-gray-500 font-semibold text-base">{newDate} - <span>{millify(totalPosts)} posts</span></p>
             </div>
             {completed === 14 && <CheckBadgeIcon className={`h-8 w-8 text-primary`} /> }
           </div>
@@ -47,9 +53,9 @@ export default async function Page({params}:{ params: { uid: string } }) {
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </button>
             <button className="bg-gray-200 px-4 py-2 rounded-md text-gray-600">
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9 9 0 0 1-9-8 9 9 0 0 1 9-8z" /></svg>
+             <HeartIcon className="text-gray-600 h-5 w-5" />
             </button>
-            <p className="text-gray-600 text-sm">417</p>
+            <p className="text-gray-600 text-sm">{millify(totalLikesFromPosts || 0)}</p>
           </div>
           <Suspense fallback={<Spinner className='h-5 w-5'/>} key={params.uid}>
             <ProfilePostsList authorId={params.uid}/>
