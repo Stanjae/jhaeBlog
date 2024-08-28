@@ -2,7 +2,7 @@ import { Oxanium } from 'next/font/google';
 import CCategoryFeaturedHeader from '@/app/ui/conditionalrenders/CCategoryFeaturedHeader';
 import CCategoryFeaturedlist from '@/app/ui/conditionalrenders/CCategoryFeaturedlist';
 import CSearchInput from '@/app/ui/conditionalrenders/CSearchInput';
-import SearchInput from '@/app/ui/forms/SearchInput';
+import MobileFeaturedList from '@/app/ui/sidebars/MobileFeaturedList';
 
 
 const oxanium = Oxanium({
@@ -22,6 +22,7 @@ const Secondlayout = ({
     {/* first column */}
     
     <div className="  py-4 col-span-12 md:col-span-9">
+      <MobileFeaturedList/>
     {children}
     </div>
     {/* second column */}

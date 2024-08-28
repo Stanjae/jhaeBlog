@@ -12,7 +12,7 @@ const ProfileCard = async({authorId}:{authorId: string}) => {
   const followersCount = millify(totalFollowers.rows[0].count)
   const followersList = followers.rows
   const newFollower = await auth()
-  console.log("example: ", followers.rows)
+
   return (
     <div>
     <div className="flex items-center gap-4 mb-6">

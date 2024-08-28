@@ -3,6 +3,8 @@ import * as React from "react";
 import { useRef } from "react";
 import { SVGMotionProps, motion, sync, useCycle } from "framer-motion";
 import { useDimensions } from "./usedimension";
+import { navigation } from "./DashboardSidePiece";
+import Link from "next/link";
 
 
 const sidebar = {
@@ -38,9 +40,9 @@ export const MobileDashNav = () => {
       custom={height}
       ref={containerRef}
     >
-      <motion.div className=" absolute top-0 h-svh bg-primary w-[300px] left-0 bottom-0" variants={sidebar} />
+      <motion.div className=" absolute top-0 h-svh bg-white w-[275px] left-0 bottom-0" variants={sidebar} />
       <Navigation />
-      <MenuToggle toggle={() => toggleOpen()} />
+      <MenuToggle isOpen={isOpen} toggle={() => toggleOpen()} />
     </motion.nav>
   );
 };
@@ -67,17 +69,21 @@ const variants = {
 
 const colors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF", "#4400FF"];
 
-export const MenuItem = ({ i }:{i:any}) => {
+export const MenuItem = ({ i, item}:any) => {
   const style = { border: `2px solid ${colors[i]}` };
+  const styles = {color:`${colors[i]}`}
   return (
     <motion.li
-        className="li"
+        className="li hover:bg-primary py-3 px-5 rounded-md hover:text-white"
       variants={variants}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
-      <div className="icon-placeholder" style={style} />
-      <div className="text-placeholder" style={style} />
+      <Link className="no-underline text-inherit flex items-center gap-2" href={item?.href}>
+        {item?.icon}
+        <span>{item?.name}</span>
+      </Link>
+      
     </motion.li>
   );
 };
@@ -96,8 +102,9 @@ const Path = (props: any) => (
 
 /* menu toogle */
 
-export const MenuToggle = ({ toggle }:{toggle:any}) => (
-  <button className=" cursor-pointer bg-white rounded-full p-5 top-2 left-2.5 relative z-50" onClick={toggle}>
+export const MenuToggle = ({ toggle , isOpen}:{toggle:any, isOpen:any}) => (
+  <button className={` cursor-pointer ${isOpen ? 'bg-primary':'bg-white'} rounded-full p-5 top-2 left-2.5 relative z-50`}
+   onClick={toggle}>
     <svg width="23" height="23" viewBox="0 0 23 23">
       <Path
         variants={{
@@ -136,8 +143,8 @@ const variants2 = {
 
 export const Navigation = () => (
   <motion.ul className=" ul" variants={variants2}>
-    {itemIds.map(i => (
-      <MenuItem i={i} key={i} />
+    {navigation.map((item:any, index:number) => (
+      <MenuItem i={index} item={item} key={index} />
     ))}
   </motion.ul>
 );

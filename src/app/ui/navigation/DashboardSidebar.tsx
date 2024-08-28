@@ -79,7 +79,7 @@ const DashboardSidebar = async() => {
                                 <div>
                                     <span className="block text-gray-700 text-sm font-semibold">{session?.user?.name}</span>
                                     <Link
-                                        href="/"
+                                        href={`/profiles/${session?.user.userid}`}
                                         className="block mt-px text-gray-600 hover:text-indigo-600 text-xs"
                                     >
                                         View profile

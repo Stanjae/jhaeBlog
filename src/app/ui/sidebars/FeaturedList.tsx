@@ -1,5 +1,5 @@
 'use client'
-import React, { Suspense, useEffect, useState } from "react";
+import React from "react";
 import { TrapeziumImage } from "../cards/PostCard";
 import { getHomeFeaturedPosts } from "@/app/lib/data";
 import { HomePagePosts } from "@/app/lib/definitions";

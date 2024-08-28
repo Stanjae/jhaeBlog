@@ -1,0 +1,7 @@
+.wrapper{
+    background-image: url('../../../../public/prism.svg');
+    background-repeat: no-repeat;
+    background-size: 100px;
+    background-position: bottom right;
+    background-blend-mode: multiply;
+}

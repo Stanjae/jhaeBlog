@@ -6,7 +6,7 @@ import { ArrowLeftEndOnRectangleIcon, PaperClipIcon, PencilSquareIcon, Clipboard
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
-const navigation = [
+export const navigation = [
     {
         href: '/auth/dashboard',
         name: 'Dashboard',

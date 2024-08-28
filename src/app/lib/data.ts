@@ -205,3 +205,37 @@ export const getLikePostByPostId =async(postId:string | undefined, userId:string
     `
     return likes.rows[0].count
   }
+
+
+
+  //for dashboard data fetching cards
+  export const getDashboardCardsInfo =async(authorId:string | undefined)=>{
+    const authorPostsCount =  sql`SELECT COUNT(*) FROM posts WHERE posts.user_id = ${authorId}
+    `
+    const likes = await sql`SELECT COUNT(*) FROM likes WHERE author_id = ${authorId}`
+
+    const followersCount = sql`SELECT COUNT(*) FROM followers WHERE author_id=${authorId}`;
+
+    const [postsCount, likesCount, followers] = await Promise.all([authorPostsCount, likes, followersCount]);
+
+    return ({postsCount, likesCount, followers})
+  }
+
+  //recharts
+
+  export const getAuthorPostsByDate =async(date:any)=>{
+    const session = await auth()
+    const authorPostsCount =  await sql`SELECT COUNT(*) FROM posts 
+    WHERE posts.user_id = ${session?.user.userid} AND TO_CHAR(posts.created_at, 'YYYY-MM-DD') = ${date} `
+    return authorPostsCount.rows[0].count
+  }
+
+  export const getRechartsQuery = async (redd:any) => {
+    const reddy = JSON.parse(redd)
+    const justin = await Promise.all(reddy.map(async(item:any)=>{
+      const pirate = await getAuthorPostsByDate(item.date)
+      return {...item, "uv":pirate}
+    }))
+    const siri = justin.sort(function(a, b){return a.name - b.name}).reverse()
+    return siri
+  }

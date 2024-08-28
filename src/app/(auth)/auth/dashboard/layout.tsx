@@ -4,6 +4,7 @@ import { MobileDashNav } from '@/app/ui/navigation/MobileDashNav';
 import DashboardCurrentTypo from '@/app/ui/typography/DashboardCurrentTypo';
 import React from 'react'
 import { Metadata } from 'next';
+import CustomAvatarWrapper from '@/app/ui/customComponents/CustomAvatarWrapper';
  
 export const metadata: Metadata = {
   title: {
@@ -21,15 +22,16 @@ const layout = async({
   }>) => {
     await dummyFunction()
   return (
-    <div className='relative bg-gray-100 p-1 overflow-hidden flex min-h-dvh'>
-      <div className=' h-full bg-red-400 w-[24%] border-r-bgdark hidden md:block fixed left-0 top-0 '>
+    <div className='relative p-1 overflow-hidden flex min-h-dvh'>
+      <div className=' h-full w-[21%] border-r-bgdark hidden md:block fixed left-0 top-0 '>
         <DashboardSidebar/>
       </div>
-      <div className=' md:ml-[24%] bg-gray-100 px-4 flex-1 relative'>
-        <div className=' shadow-lg h-14 fixed w-full md:w-[76%] right-0 top-0 z-10 bg-white border-b-bgdark '>
+      <div className=' md:ml-[21%] bg-primary/10 px-4 flex-1 relative'>
+        <div className=' shadow-lg h-14 pr-10 flex justify-between md:justify-end fixed w-full md:w-[79%] right-0 top-0 z-10 bg-white border-b-bgdark '>
           <div className=' md:hidden block relative z-20'>
             <MobileDashNav/>
-          </div>   
+          </div>
+          <CustomAvatarWrapper/>
         </div>
         <DashboardCurrentTypo/>
         <div className=' mt-1'>

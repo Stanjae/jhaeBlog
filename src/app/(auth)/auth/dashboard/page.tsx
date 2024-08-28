@@ -1,6 +1,9 @@
 import { auth } from '@/auth'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Metadata } from 'next';
+import DashboardCardWrapper from '@/app/ui/customComponents/DashboardCardWrapper';
+import DashboardCardsWrapperSkeleton from '@/app/ui/cskeletons/DashboardCardsWrapperSkeleton';
+import DashboardRecharts from '@/app/ui/customComponents/DashboardRecharts';
 
 export const metadata: Metadata = {
   title: 'Dashboard | JhaeBlog',
@@ -9,9 +12,13 @@ export const metadata: Metadata = {
 const page = async() => {
   const session = await auth()
   return (
-    <div>
-      page default for dashboard
-      <p>{JSON.stringify(session)}</p>
+    <div className=''>
+      <Suspense key={session?.user.userid} fallback={<DashboardCardsWrapperSkeleton/>}>
+        <DashboardCardWrapper userid={session?.user.userid} />
+      </Suspense>
+      <Suspense>
+        <DashboardRecharts/>
+      </Suspense>
 
     </div>
   )
