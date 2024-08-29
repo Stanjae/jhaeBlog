@@ -44,12 +44,12 @@ const MobileSlider = () => {
   return(
     <Slider className=' md:flex hidden items-center border-b border-b-bgdark/50' {...settings}>
           {data?.map((post, index)=>(
-            <Link key={index} className=" my-3 text-inherit transition-all hover:underline duration-500 hover:text-primary" href={`/detail/${post?.slug}`}>
-                <div className='flex gap-3 items-center shadow-lg px-3 py-2 rounded-full'>
+            <Link key={index} className=" mb-3 text-inherit transition-all hover:underline duration-500 hover:text-primary" href={`/detail/${post?.slug}`}>
+                <div className='flex gap-3 items-center shadow-md px-3 py-2 rounded-full'>
                     <Image src={post?.image_url} alt={post?.title} width={40} height={40} 
                     className=" h-10 w-10 rounded-3xl" />
                     <p className=" font-semibold text-wrap text-ellipsis text-lg ">
-                        {post.title} 
+                        {post.title?.slice(0, 20)}... 
                     </p>
                 </div>
           </Link>
