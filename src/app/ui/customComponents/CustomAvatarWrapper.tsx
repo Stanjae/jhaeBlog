@@ -7,7 +7,7 @@ import { Badge } from './CustomComponents'
 const CustomAvatarWrapper =async () => {
     const session = await auth()
   return (
-    <div className='flex items-center gap-4'>
+    <div className='flex items-center gap-2'>
         <Badge color='red'>
             <BellAlertIcon className='h-8 w-8 text-gray-500'/>
         </Badge>

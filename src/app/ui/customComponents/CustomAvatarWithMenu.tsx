@@ -41,11 +41,11 @@ export function CustomAvatarWithMenu({session}:any) {
  
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
-      <MenuHandler>
+      <MenuHandler className="z-50">
         <Button
           variant="text"
           color="blue-gray"
-          className="flex items-center rounded-full p-0"
+          className="flex items-center z-50 rounded-full p-0"
         >
           {session?.image ?
           <Avatar
