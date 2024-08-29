@@ -1,7 +1,6 @@
 'use client'
 import React from "react";
-import { Drawer, Button, Typography, IconButton, List, ListItem, ListItemPrefix, ListItemSuffix, Chip,
-} from "../customComponents/CustomComponents";
+import { Drawer, Button, Typography, IconButton, List, ListItem, ListItemPrefix, ListItemSuffix, Chip} from "../customComponents/CustomComponents";
 import { Bars3BottomRightIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Oxanium } from "next/font/google";
 import { urlLinks } from "./CusNavLinks";

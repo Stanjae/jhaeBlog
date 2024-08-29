@@ -27,7 +27,7 @@ const layout = async({
         <DashboardSidebar/>
       </div>
       <div className=' md:ml-[21%] bg-primary/10 px-4 flex-1 relative'>
-        <div className=' shadow-lg h-14 pr-10 flex justify-between md:justify-end fixed w-full md:w-[79%] right-0 top-0 z-10 bg-white border-b-bgdark '>
+        <div className=' shadow-lg h-14 pr-16 flex justify-between md:justify-end fixed w-full md:w-[79%] right-0 top-0 z-10 bg-white border-b-bgdark '>
           <div className=' md:hidden block relative z-20'>
             <MobileDashNav/>
           </div>
