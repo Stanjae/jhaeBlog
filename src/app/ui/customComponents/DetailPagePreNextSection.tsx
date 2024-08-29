@@ -16,7 +16,7 @@ const DetailPagePreNextSection = async({postSlug}:any) => {
     const nextPost = recentPosts?.at(Math.floor(Math.random() * recentPosts?.length))
   return (
     <section className=' py-12 bg-primary/10'>
-            <div className=' gap-x-40 flex justify-between max-w-screen-lg mx-auto'>
+            <div className=' md:gap-x-40 gap-x-20 flex md:flex-row flex-col justify-normal md:justify-between max-w-screen-lg mx-auto'>
                 <div className=' pb-0.5 border-b border-b-bgdark space-y-5'>
                     <div className=' gap-x-2 items-center flex'>
                         <Link href={`/detail/${prevPost?.slug}`} className=' p-2 rounded-full border border-bgdark'>

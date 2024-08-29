@@ -29,7 +29,7 @@ export function MobileNavBar({session}:any) {
       <Drawer placement="right" open={open} onClose={closeDrawer}>
         <div className="mb-2 flex items-center justify-between p-4">
           <Typography variant="h5" className={` ${oxanium.className} text-textdark`}>
-            Jhae-Blog
+            <Link className=" no-underline text-inherit" href={'/'}>Jhae-Blog</Link>
           </Typography>
           <IconButton variant="text" color="blue-gray" onClick={closeDrawer}>
             <svg
@@ -63,7 +63,7 @@ export function MobileNavBar({session}:any) {
 
         </List>
         {session?.id ?
-        <Button onClick={()=> signOut()} className="mt-3 ml-5 w-4/5 block" size="sm">
+        <Button onClick={async()=> await signOut()} className="mt-3 ml-5 w-4/5 block" size="sm">
           Logout
         </Button>
         :
