@@ -49,7 +49,7 @@ const MobileSlider = () => {
                     <Image src={post?.image_url} alt={post?.title} width={40} height={40} 
                     className=" h-10 w-10 rounded-3xl" />
                     <p className=" font-semibold text-wrap text-ellipsis text-lg ">
-                        {post.title?.slice(0, 20)}... 
+                        {post.title?.slice(0, 30)}... 
                     </p>
                 </div>
           </Link>
