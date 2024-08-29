@@ -13,7 +13,7 @@ const oxanium = Oxanium({
     subsets: ["latin"],
     variable: "--font-oxanium",
   })
-export function MobileNavBar({session}:any) {
+export function MobileNavBar({session, aSignOut}:any) {
   const [open, setOpen] = React.useState(false);
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
@@ -62,11 +62,11 @@ export function MobileNavBar({session}:any) {
 
         </List>
         {session?.id ?
-        <Button onClick={async()=> await signOut()} className="mt-3 ml-5 w-4/5 block" size="sm">
+        <Button onClick={async()=> await aSignOut()} className="mt-3 ml-5 w-4/5 block" size="sm">
           Logout
         </Button>
         :
-        <Link className=" text-textdark hover:text-primary" href={'auth/login'}>Login</Link>
+        <Link className=" text-textdark ml-5 font-semibold hover:text-primary" href={'auth/login'}>Login</Link>
         }
       </Drawer>
     </React.Fragment>

@@ -21,7 +21,7 @@ import { signOut } from "next-auth/react"
 // profile menu component
 
  
-export function CustomAvatarWithMenu({session}:any) {
+export function CustomAvatarWithMenu({session, asignout}:any) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
  
   const closeMenu = () => setIsMenuOpen(false);
@@ -93,7 +93,7 @@ export function CustomAvatarWithMenu({session}:any) {
             </MenuItem>
           );
         })}
-        <Button onClick={()=> signOut()} className=" flex w-full text-red-400 items-center gap-2 " variant="text">
+        <Button onClick={async()=> await asignout()} className=" flex w-full text-red-400 items-center gap-2 " variant="text">
               <PowerIcon className="h-4 w-4" />
               Logout</Button>
       </MenuList>

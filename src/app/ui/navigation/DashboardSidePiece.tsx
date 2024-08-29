@@ -2,11 +2,17 @@
 import React from 'react'
 
 
-import { ArrowLeftEndOnRectangleIcon, PaperClipIcon, PencilSquareIcon, ClipboardDocumentListIcon} from '@heroicons/react/24/solid'
+import { ArrowLeftEndOnRectangleIcon, PaperClipIcon, PencilSquareIcon, ClipboardDocumentListIcon, HomeIcon} from '@heroicons/react/24/solid'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 export const navigation = [
+    {
+        href: '/',
+        name: 'Home',
+        icon: <HomeIcon className='h-5 w-5'/>
+        ,
+    },
     {
         href: '/auth/dashboard',
         name: 'Dashboard',
