@@ -25,7 +25,7 @@ const PostCard = ({width, height, alt, data}:{width:any, height:string, alt:stri
         </div>
         
         <div className='block sm:hidden'>
-          <TrapeziumImageMobile width='100%' height='225px' src={Logo} alt='mobile image'/>
+          <TrapeziumImageMobile width='100%' height='225px' src={data.image_url} alt='mobile image'/>
         </div>
       </div>
       
