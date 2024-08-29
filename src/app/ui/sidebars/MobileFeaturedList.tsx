@@ -42,7 +42,7 @@ let settings = {
 const MobileSlider = () => {
     const {data,isFetching} = useQuery({ queryKey: ['todo'], queryFn: async()=> await getHomeFeaturedPosts() })
   return(
-    <Slider className=' md:flex hidden items-center border-b border-b-bgdark/50' {...settings}>
+    <Slider className='p-0 md:flex hidden items-center border-b border-b-bgdark/50' {...settings}>
           {data?.map((post, index)=>(
             <Link key={index} className=" mb-3 text-inherit transition-all hover:underline duration-500 hover:text-primary" href={`/detail/${post?.slug}`}>
                 <div className='flex gap-3 items-center shadow-md px-3 py-2 rounded-full'>

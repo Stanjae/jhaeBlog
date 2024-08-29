@@ -21,7 +21,7 @@ const Secondlayout = ({
     <div className="grid grid-cols-12">
     {/* first column */}
     
-    <div className="  py-4 col-span-12 md:col-span-9">
+    <div className=" py-0 md:py-4 col-span-12 md:col-span-9">
       <MobileFeaturedList/>
     {children}
     </div>
