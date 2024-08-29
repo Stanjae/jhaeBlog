@@ -88,7 +88,7 @@ export const getDetailedPostBySlug = async(slug:string)=>{
     JOIN users ON users.userId = posts.user_id
     JOIN profiles ON profiles.user_id = posts.user_id
     WHERE posts.slug = ${slug}`;
-    console.log('post: ',post)
+
       if(!post) return null 
       return post.rows[0];
   

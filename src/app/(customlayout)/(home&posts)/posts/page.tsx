@@ -1,6 +1,7 @@
 import { Oxanium } from 'next/font/google'
 import AllPostCard from '@/app/ui/cards/AllPostCard'
 import { getAllPosts } from '@/app/lib/data'
+import AllPostCardSkeleton from '@/app/ui/cskeletons/AllPostCardSkeleton'
 
 
 const oxanium = Oxanium({
@@ -23,7 +24,7 @@ const Posts = async({searchParams}:any) => {
       <div className=" py-10 pr-10 grid gap-10 grid-cols-6">
         {posts?.map((post:any, index:number)=>(
             <div key={index} className=' col-span-6 sm:col-span-3'>
-                        <AllPostCard post={post}/>
+              {post ? <AllPostCard post={post}/> : <AllPostCardSkeleton/>}
             </div>
         ))}
         

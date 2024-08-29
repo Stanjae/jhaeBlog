@@ -22,7 +22,6 @@ const Secondlayout = ({
     {/* first column */}
     
     <div className=" py-0 md:py-4 col-span-12 md:col-span-9">
-      <MobileFeaturedList/>
     {children}
     </div>
     {/* second column */}

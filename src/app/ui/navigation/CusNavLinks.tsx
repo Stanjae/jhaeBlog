@@ -2,11 +2,12 @@
 import Link from 'next/link'
 import React from 'react'
 import { Fira_Sans } from 'next/font/google'
+import { DocumentIcon, HomeIcon, PhoneIcon } from '@heroicons/react/24/solid'
 
-const urlLinks = [
-    {title:'home', url:'/'},
-    {title:'posts', url:'/posts'},
-    {title:'contact us', url:'/contact-us'}
+export const urlLinks = [
+    {title:'home', url:'/', icon:<HomeIcon className='h-4 w-4'/>},
+    {title:'posts', url:'/posts', icon:<DocumentIcon className='h-4 w-4'/>},
+    {title:'contact us', url:'/contact-us', icon:<PhoneIcon className='h-4 w-4'/>}
 ]
 const fira = Fira_Sans({subsets: ['latin'], weight: '400'});
 

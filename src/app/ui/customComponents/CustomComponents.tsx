@@ -4,7 +4,7 @@ import { ThemeProvider, Button, Input,  Select, Option,  Checkbox, Alert, Avatar
     Card, List, ListItem, ListItemPrefix, Typography, CardHeader, CardBody, Chip, 
     CardFooter,IconButton, Tooltip, Dialog, DialogHeader, DialogBody,DialogFooter, Popover,
     PopoverHandler,PopoverContent, Tabs,  Spinner , Badge,
-    TabsHeader,TabsBody, Tab,TabPanel, Menu,
+    TabsHeader,TabsBody, Tab,TabPanel, Menu, Drawer, ListItemSuffix,
     MenuHandler,MenuItem,MenuList
     } from "@material-tailwind/react";
 
@@ -138,7 +138,8 @@ export { ThemeProvider, Button, Input, CustomFileUpload , Alert,  Select, Option
   DialogHeader,DialogBody,DialogFooter, Popover,
   PopoverHandler,  Spinner , Badge,
   PopoverContent, Tabs, TabsHeader, TabsBody, Tab, TabPanel, Menu,
-  MenuHandler,
+  MenuHandler, ListItem,
+  ListItemPrefix,  List, Drawer, ListItemSuffix,
   MenuItem,
   MenuList,
 }

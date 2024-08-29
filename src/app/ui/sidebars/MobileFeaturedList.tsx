@@ -39,11 +39,22 @@ let settings = {
     slidesToScroll: 1,
   };
 
+  const SkeletonFeatured =()=>{
+    return(
+      <div className='flex md:hidden gap-3 items-center animate-pulse shadow-md px-3 py-2 rounded-full'>
+              <div className='h-10 w-10 bg-gray-400 rounded-3xl'></div>
+              <p className=" w-4/5 h-8 bg-gray-400 font-semibold rounded-2xl text-wrap text-ellipsis text-lg ">
+                &nbsp; 
+              </p>
+      </div>
+    )
+  }
+
 const MobileSlider = () => {
     const {data,isFetching} = useQuery({ queryKey: ['todo'], queryFn: async()=> await getHomeFeaturedPosts() })
   return(
-    <Slider className='p-0 md:flex hidden items-center border-b border-b-bgdark/50' {...settings}>
-          {data?.map((post, index)=>(
+    <Slider className='p-0 md:hidden flex items-center border-b border-b-bgdark/50' {...settings}>
+          {isFetching ? <SkeletonFeatured/> : data?.map((post, index)=>(
             <Link key={index} className=" mb-3 text-inherit transition-all hover:underline duration-500 hover:text-primary" href={`/detail/${post?.slug}`}>
                 <div className='flex gap-3 items-center shadow-md px-3 py-2 rounded-full'>
                     <Image src={post?.image_url} alt={post?.title} width={40} height={40} 
@@ -57,3 +68,4 @@ const MobileSlider = () => {
     </Slider>
   )
 }
+

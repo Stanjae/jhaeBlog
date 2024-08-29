@@ -26,13 +26,12 @@ export default async function Page({ params }:{ params: { uid: string } }){
     const post = await getDetailedPostBySlug(params.uid)
     const session = await auth()
     
-    //console.log('the current post',post)
     const clean = DOMPurify.sanitize(post?.content.trim());
     const newDate = new Date(post?.created_at).toDateString()
     const initialLiked = await getLikePostByPostId(post?.postid, session?.user.userid)
 
     const noOfLikes = await getAllLikesByPostId(post?.postid)
-    //console.log('the number of likes', post, params.uid)
+
 
     
 
@@ -40,12 +39,23 @@ export default async function Page({ params }:{ params: { uid: string } }){
   return (
     <main className=" mx-auto h-screen">
         <section className=' mt-[91px] border-b border-b-bgdark pt-8 blog-post'>
-            <div className=' space-y-5 mx-auto max-w-screen-lg '>
+            <div className=' px-2.5 md:px-0 space-y-5 mx-auto max-w-screen-lg '>
                 <BackButton/>
-                <h1 className={`${oxanium.className} text-[42px] leading-10 md:leading-none text-wrap md:text-6xl font-bold`}>
+                {/* mobile  */}
+                <div className='flex md:hidden'>
+                    {post?.profile_image_url ? 
+                    <Image width={28} height={28} className=' h-7 w-7 sm:h-10 sm:w-10 rounded-full object-cover' 
+                    src={post?.profile_image_url} alt='author'/>
+                    :
+                    <CustomAvatar name={post?.author.toUpperCase().slice(0,2)}/>
+                    }
+                    <h5 className=' font-semibold border-r border-r-bgdark px-3'>{post?.author}</h5>
+                    <h5 className=' font-normal px-3 '>{newDate}</h5>
+                </div>
+                <h1 className={`${oxanium.className} text-[38px] leading-10 md:leading-none text-wrap md:text-6xl font-bold`}>
                     {post?.title}
                 </h1>
-                <div className=' text-sm sm:text-base relative flex items-center'>
+                <div className=' text-sm sm:text-base relative hidden md:flex items-center'>
                     {post?.profile_image_url ? 
                     <Image width={28} height={28} className=' h-7 w-7 sm:h-10 sm:w-10 rounded-full object-cover' 
                     src={post?.profile_image_url} alt='author'/>
@@ -62,12 +72,21 @@ export default async function Page({ params }:{ params: { uid: string } }){
                     </Tooltip>}
                     <PostLike authorid={post?.authorid} countLikes={noOfLikes} slug={params.uid} userId={session?.user.userid} initialLiked={initialLiked} postId={post?.postid}/>
                 </div>
+
+                {/* mobile */}
+                <div className="flex md:hidden items-center">
+                <Chip className='ml-3' size="sm" value={post?.category} />
+                    {post?.type == "featured post" && <Tooltip content={post?.type}>
+                        <StarIcon className=' h-5 w-5 sm:h-7 sm:w-7 ml-3 text-yellow-700' />
+                    </Tooltip>}
+                    <PostLike authorid={post?.authorid} countLikes={noOfLikes} slug={params.uid} userId={session?.user.userid} initialLiked={initialLiked} postId={post?.postid}/>
+                </div>
                 <Image  quality={100} priority={true} width={1280} height={1280}  sizes="(min-width: 808px) 50vw, 100vw" style={{clipPath: 'polygon(0% 0%, 90% 12.5%, 100% 100%, 0% 100%)'}}  
                 className=' blogstyle w-full h-[300px] rounded-md object-cover mx-auto block' src={post?.image_url } alt={post?.slug}/>
             </div>
             
         </section>
-        <section className=' pb-10'>
+        <section className=' px-5 md:px-0 pb-10'>
             <div className=' space-y-2 font-medium py-4 mx-auto max-w-screen-md '>
                 <div dangerouslySetInnerHTML={{__html: clean.slice(1, clean.length -1)}}/>
             </div>
@@ -77,13 +96,13 @@ export default async function Page({ params }:{ params: { uid: string } }){
                 <Suspense fallback={'...loading'}>
                     <div className='flex gap-2 flex-wrap'>
                         {JSON.parse(post?.tags || '[]').map((tag: string) => (<Chip key={tag} 
-                                            className="bg-primary text-white" size="md" value={tag}/>))}
+                            className="bg-primary text-white" size="md" value={tag}/>))}
                     </div>
                     
                 </Suspense>
             </div>
             <div className=' border-y border-y-bgdark flex justify-between items-center space-y-2 py-4 mx-auto max-w-screen-md '>
-               <h2 className={`${oxanium.className} font-bold text-3xl`}>Share this Post</h2>
+               <h2 className={`${oxanium.className} font-bold text-xl md:text-3xl`}>Share this Post</h2>
                <div className="flex items-center gap-x-6 mt-6">
                     <a className=" p-3 border hover:text-white hover:bg-primary border-bgdark rounded-full" href="/">
                         <svg className="w-5 h-5 duration-150" fill="none" viewBox="0 0 48 48"><g clipPath="url(#a)"><path fill="currentColor" d="M48 24C48 10.745 37.255 0 24 0S0 10.745 0 24c0 11.979 8.776 21.908 20.25 23.708v-16.77h-6.094V24h6.094v-5.288c0-6.014 3.583-9.337 9.065-9.337 2.625 0 5.372.469 5.372.469v5.906h-3.026c-2.981 0-3.911 1.85-3.911 3.75V24h6.656l-1.064 6.938H27.75v16.77C39.224 45.908 48 35.978 48 24z" /></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h48v48H0z" /></clipPath></defs></svg>

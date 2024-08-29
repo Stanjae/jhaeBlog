@@ -1,6 +1,7 @@
 import { Oxanium } from "next/font/google";
 import PostCard  from "../../ui/cards/PostCard";
 import { homeRecentPosts } from "@/app/lib/data";
+import MobileFeaturedList from "@/app/ui/sidebars/MobileFeaturedList";
 
 
 const oxanium = Oxanium({
@@ -14,7 +15,11 @@ export default async function Home() {
   
   return (
     <div>
-      <div className=" py-10 pr-16 border-b border-bgdark">
+      <div className="md:hidden block">
+         <MobileFeaturedList/>
+      </div>
+     
+      <div className=" py-5 md:py-10 pr-16 border-b border-bgdark">
         <h1 className={`${oxanium.className} text-[42px] leading-10 md:leading-none text-wrap 
         md:text-7xl font-bold`}>Discover Our Latest Posts</h1>
       </div>

@@ -2,22 +2,18 @@
 import Link from 'next/link'
 import Logo from '../../../../public/siteLogo.png'
 import Image from "next/image"
-//import { Fira_Sans } from 'next/font/google'
 import {Avatar, Typography} from '../customComponents/CustomComponents'
-import { UserSession } from '@/app/lib/definitions'
 import { auth } from '@/auth'
 import CusNavLinks from './CusNavLinks'
 import CustomAvatar from '../customComponents/CustomAvatar'
+import { MobileNavBar } from './MobileNavBar'
 
-
-
-//const fira = Fira_Sans({subsets: ['latin'], weight: '400'});
 
 const NavBar = async() => {
     const session = await auth();
   return (
     <header className={`z-50 border-b border-bgdark md:fixed w-full bg-white top-0 left-0`} >
-        <div className='flex justify-between md:justify-center max-w-screen-lg mx-auto gap-x-5 items-center '>
+        <div className='flex justify-between pr-3 md:justify-center max-w-screen-lg mx-auto gap-x-5 items-center '>
             <Image src={Logo} alt="logo" width={90} height={90} className=""/>
             <CusNavLinks/>
             <div className=' flex items-center space-x-3 '>
@@ -30,11 +26,12 @@ const NavBar = async() => {
                             <CustomAvatar name={session?.user.name?.toUpperCase().slice(0,2) || ''}/>
                         )
                         }       
-                        <Typography variant='h6' className='font-bold' >Dashboard</Typography>
+                        <Typography variant='h6' className='font-bold hidden lg:inline-block' >Dashboard</Typography>
                 </div></Link>)
-                :<Link href='/auth/login'>Login</Link>
+                :<Link className=' hidden lg:inline-block' href='/auth/login'>Login</Link>
                 }
-                <button className='border border-bgdark py-2 px-6 rounded-md transition-colors duration-500 hover:bg-bgdark hover:text-white '>Book a Call</button>
+                <button className='border hidden md:inline-block border-bgdark py-2 px-6 rounded-md transition-colors duration-500 hover:bg-bgdark hover:text-white '>Book a Call</button>
+                <MobileNavBar session={session?.user}/>
             </div>
         </div>
         
