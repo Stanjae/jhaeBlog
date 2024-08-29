@@ -93,7 +93,7 @@ export function CustomAvatarWithMenu({session}:any) {
             </MenuItem>
           );
         })}
-        <Button onClick={async()=> await signOut()} className=" flex w-full text-red-400 items-center gap-2 " variant="text">
+        <Button onClick={()=> signOut()} className=" flex w-full text-red-400 items-center gap-2 " variant="text">
               <PowerIcon className="h-4 w-4" />
               Logout</Button>
       </MenuList>
