@@ -5,6 +5,9 @@ import Link from 'next/link';
 import React from 'react'
 import Slider from "react-slick";
 import { TrapeziumImage } from '../cards/PostCard';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Image from 'next/image';
 
 
 const queryClient = new QueryClient({
@@ -29,7 +32,7 @@ const MobileFeaturedList = () => {
 export default MobileFeaturedList
 
 let settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -39,20 +42,17 @@ let settings = {
 const MobileSlider = () => {
     const {data,isFetching} = useQuery({ queryKey: ['todo'], queryFn: async()=> await getHomeFeaturedPosts() })
   return(
-    <Slider className=' md:hidden flex items-center' {...settings}>
+    <Slider className=' md:flex hidden items-center border-b border-b-bgdark/50' {...settings}>
           {data?.map((post, index)=>(
-            <li key={index} className=" flex px-2 border-b border-b-bgdark/50 flex-1 items-center py-5 gap-x-4">
-            <TrapeziumImage
-              src={post.image_url}
-              alt="featured"
-              width="50px"
-              height="50px"
-            />
-            <h5 className=" font-semibold text-pretty text-lg ">
-             <Link className=" text-inherit transition-all hover:underline duration-500 hover:text-primary" href={`/detail/${post?.slug}`}>
-             {post.title}</Link> 
-            </h5>
-          </li>
+            <Link key={index} className=" my-3 text-inherit transition-all hover:underline duration-500 hover:text-primary" href={`/detail/${post?.slug}`}>
+                <div className='flex gap-3 items-center shadow-lg px-3 py-2 rounded-full'>
+                    <Image src={post?.image_url} alt={post?.title} width={40} height={40} 
+                    className=" h-10 w-10 rounded-3xl" />
+                    <p className=" font-semibold text-wrap text-ellipsis text-lg ">
+                        {post.title} 
+                    </p>
+                </div>
+          </Link>
           ))}
     </Slider>
   )
