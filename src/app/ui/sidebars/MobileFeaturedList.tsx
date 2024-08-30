@@ -14,9 +14,9 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retry: false,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      retry: true,
     },
   },
 })
@@ -37,6 +37,9 @@ let settings = {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    cssEase: "linear"
   };
 
   const SkeletonFeatured =()=>{
@@ -54,7 +57,8 @@ const MobileSlider = () => {
     const {data,isFetching} = useQuery({ queryKey: ['todo'], queryFn: async()=> await getHomeFeaturedPosts() })
   return(
     <Slider className='p-0 md:hidden flex items-center border-b border-b-bgdark/50' {...settings}>
-          {isFetching ? <SkeletonFeatured/> : data?.map((post, index)=>(
+      {isFetching && <SkeletonFeatured/> }
+          {!isFetching && data?.map((post, index)=>(
             <Link key={index} className=" mb-3 text-inherit transition-all hover:underline duration-500 hover:text-primary" href={`/detail/${post?.slug}`}>
                 <div className='flex gap-3 items-center shadow-md px-3 py-2 rounded-full'>
                     <Image src={post?.image_url} alt={post?.title} width={40} height={40} 
